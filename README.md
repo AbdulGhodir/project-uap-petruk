@@ -7,4 +7,4 @@ Annisa Azzara (2417051059)
 M. Rafly Saputra (2417051049)
 M. Surya Gymnastyar (2417051011)
 
-run to project *g++ src/\*.cpp -o run*
+run to project *g++ main.cpp src/\*.cpp -o run*
