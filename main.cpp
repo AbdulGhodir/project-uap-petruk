@@ -2,65 +2,94 @@
 #include <vector>
 #include "include/database.h"
 #include "include/user.h"
+#include "include/lib.h"
 
 namespace AUTH {
     void Login() {
         MyDatabase database("data/user.csv");
         std::string email, password;
-        std::cout << "=== Selamat Datang di Pegadaian Rafly ===" << "\n";
+
+        cetakGaris(40, green);
+        setWarnaFont(blue);
         std::cout << "Silahkan Login Terlebih Dahulu" << "\n\n";
+        setWarnaFont(reset);
         std::cout << "Masukkan email anda: ";
         getline(std::cin, email);
         std::cout << "Masukkan password anda: ";
         getline(std::cin, password);
-        std::cout << "\n\n";
-        database.auth(email, password);
+        std::cout << "\n";
+        
+        int respon = database.auth(email, password);
+        if(respon) {
+            setWarnaFont(green);
+            std::cout << "\n" << "Login berhasil";
+            setWarnaFont(reset);
+        } else {
+            setWarnaFont(red);
+            std::cout << "\n" << "Email \\ Password salah";
+            setWarnaFont(reset);
+        }
+        cetakGaris(40, green);
+
     }
 
     void Register() {
         MyDatabase database("data/user.csv");
         std::string username, password, confirmPassword, email, noTelp, noKtp = "null";
-        std::vector<std::string> user;
+        std::unordered_map<std::string, std::string> user;
 
+        cetakGaris(40, magenta);
         do {
-            std::cout << "=== Selamat Datang di Pegadaian Rafly ===" << "\n";
+            setWarnaFont(blue);
             std::cout << "Silahkan Register Terlebih Dahulu" << "\n\n";
+            setWarnaFont(reset);
             std::cout << "Masukkan username anda: ";
             getline(std::cin, username);
-            user.push_back(username);
             std::cout << "Masukkan email anda: ";
             getline(std::cin, email);
-            user.push_back(email);
             std::cout << "Masukkan No. Telp anda: ";
             getline(std::cin, noTelp);
-            user.push_back(noTelp);
             std::cout << "Masukkan password anda: ";
             getline(std::cin, password);
-            user.push_back(password);
             std::cout << "Masukkan Confirm password anda: ";
             getline(std::cin, confirmPassword);
-            user.push_back(noKtp);
-            std::cout << "\n\n";
-            if(password != confirmPassword) std::cout << "Password tidak sama!!" << "\n\n";
+
+            user["role"] = "user";
+            user["nama"] = username;
+            user["email"] = email;
+            user["noTelp"] = noTelp;
+            user["password"] = password;
+            user["noKtp"] = noKtp;
+            if(password != confirmPassword) {
+                setWarnaFont(red);
+                std::cout << "\n" << "Password tidak sama!!" << "\n";
+                setWarnaFont(reset);
+            }
         } while(password != confirmPassword);
-        database.writeData(user);
+
+        int respon = database.writeData(user);
+        if(respon) {
+            setWarnaFont(green);
+            std::cout << "\n" << "Register berhasil";
+            setWarnaFont(reset);
+        } else {
+           setWarnaFont(red);
+           std::cout << "\n" << "Register Gagal!";
+           setWarnaFont(reset);
+        }
+        cetakGaris(40, magenta);
     }
 }
 
-
-
-
 int main() {
-    MyDatabase database("data/user.csv");
-    AUTH::Register();
-    AUTH::Login();
-    database.readData();
-    // std::vector<std::vector<std::string>> data;
-    // database.getData(data);
-    // for(const auto& baris: data) {
-    //     for(const auto& kolom: baris) {
-    //         std::cout << kolom << " | ";
-    //     }
-    //     std::cout << "\n";
-    // }
+    // CEK UDAH LOGIN ATAU BELUM
+    cetakGaris(40, yellow);
+    std::cout << "SELAMAT DATANG DI SISTEM PEGADAIAN";
+    cetakGaris(40, yellow);
+    MyDatabase database("data/barang.csv");
+    std::vector<std::unordered_map<std::string, std::string>> data;
+    database.getData(data);
+    for(const auto& row: data) {
+        std::cout << "Nama barang: " << row.at("namaBarang") << "\n";
+    }
 }

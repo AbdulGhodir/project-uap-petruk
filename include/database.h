@@ -3,18 +3,21 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+
 class MyDatabase {
     private:
         std::string namaFile;
-        std::vector<std::vector<std::string>> data;
+        std::vector<std::string> header;
+        std::vector<std::unordered_map<std::string, std::string>> data;
         
     public:
         MyDatabase(std::string namaFile);
-        MyDatabase& writeData(const std::vector<std::string>& data);
+        bool writeData(const std::unordered_map<std::string, std::string>& data);
         MyDatabase& readData();
-        MyDatabase& getData(std::vector<std::vector<std::string>>& data);
-        MyDatabase& auth(const std::string& email, const std::string& password);
-        MyDatabase& updateData(const std::string id, const std::vector<std::string>& data);
+        MyDatabase& getData(std::vector<std::unordered_map<std::string, std::string>>& data);
+        bool auth(const std::string& email, const std::string& password);
+        MyDatabase& updateData(const std::string id, const std::unordered_map<std::string, std::string>& data);
         MyDatabase& deleteData(const std::string id);
         bool is_empty();
         void reload();
