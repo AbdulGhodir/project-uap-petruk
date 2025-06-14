@@ -47,7 +47,7 @@ void menuAdmin() {
 
     cout << "Silahkan Pilih Menu Berikut :\n";
     cout << "1. Tambah Data Gadai\n";
-    cout << "2. Lihat Semua Data Identitas Nasabah\n";
+    cout << "2. Lihat Data Identitas Nasabah\n";
     cout << "3. Lihat Semua Data Gadai Nasabah\n";
     cout << "4. Cari Data  Berdasarkan Nama Nasabah\n";
     cout << "5. Ubah Status Gadai\n";
@@ -57,6 +57,7 @@ void menuAdmin() {
 
     int pilihan;
     cin >> pilihan;
+    cout << endl;
 
     switch (pilihan) {
         case 1:
