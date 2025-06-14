@@ -10,8 +10,8 @@ void menu(string role);
 
 // Admin
 void tambahDataGadai();
-void lihatDataIdentitas();
-void lihatDataGadai();
+void listDataIdentitas();
+void listDataGadai();
 void cariDataGadai();
 void ubahStatusGadai();
 void hapusDataGadai();

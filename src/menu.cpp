@@ -63,10 +63,10 @@ void menuAdmin() {
             tambahDataGadai();
             break;
         case 2:
-            lihatDataIdentitas();
+            listDataIdentitas();
             break;
         case 3:
-            lihatDataGadai();
+            listDataGadai();
             break;
         case 4:
             cariDataGadai();

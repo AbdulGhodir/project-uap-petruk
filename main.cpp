@@ -84,11 +84,11 @@ namespace AUTH {
 
 int main() {
     // CEK UDAH LOGIN ATAU BELUM
-    std::string akun;
-    cout << "Masukkan role (admin/nasabah) : ";
-    cin >> akun;
+    // std::string akun;
+    // cout << "Masukkan role (admin/nasabah) : ";
+    // cin >> akun;
     
-    menu(akun);
+    menu("admin");
 
 
 }
