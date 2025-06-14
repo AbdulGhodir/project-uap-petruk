@@ -33,16 +33,16 @@ string jatuhTempo(const string& tanggalGadai, int jangakWaktu) {
 }
 
 int taksiranHarga(const string& hargaBarang, const string& beratBarang) {
-    if (stoi(beratBarang) <= 5) {
-        return stoi(hargaBarang) * 0.9;
+    if (stoi(beratBarang) < 5) {
+        return stoi(hargaBarang) * 0.7;
     } else if (stoi(beratBarang) <= 10) {
-        return stoi(hargaBarang) * 0.85;
+        return stoi(hargaBarang) * 0.75;
     } else if (stoi(beratBarang) <= 20) {
         return stoi(hargaBarang) * 0.80;
     } else if (stoi(beratBarang) <= 50) {
-        return stoi(hargaBarang) * 0.70;
+        return stoi(hargaBarang) * 0.85;
     } else {
-        return stoi(hargaBarang) * 0.60;
+        return stoi(hargaBarang) * 0.9;
     }
 }
 
