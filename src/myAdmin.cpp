@@ -103,11 +103,113 @@ void tambahDataGadai() {
 }
 
 void listDataIdentitas() {
-    cout << "LIHAT DATA IDENTITAS NASABAH\n";
+    MyDatabase nasabah("data/user.csv");
+    vector<unordered_map<string, string>> dataNasabah;
+    nasabah.getData(dataNasabah);
+
+    cout << "Silahkan Pilih Data yang Ingin Ditampilkan :\n";
+    cout << "1. Semua Data Identitas\n";
+    cout << "2. Data Identitas Berdasarkan ID Nasabah\n";
+    cout << "3. Data Identitas Berdasarkan Nama Nasabah\n";
+    cout << "Masukkan Pilihan Anda : ";
+
+    int pilihan;
+    cin >> pilihan;
+    cout << endl;   
+
+    if (pilihan == 1) {
+        int ke = 1;
+
+        for (int i = 0; i < dataNasabah.size(); i++) {
+            if (dataNasabah[i]["role"] != "user") continue;
+            
+            cout << "\nNasabah ke-" << ke;
+            cetakGaris(12, yellow, '-');    
+            cout << "ID Nasabah         : " << dataNasabah[i]["id"] << endl;
+            cout << "Nama Nasabah       : " << dataNasabah[i]["nama"] << endl;
+            cout << "E-Mail Nasabah     : " << dataNasabah[i]["email"] << endl;
+            cout << "No Telepon Nasabah : " << dataNasabah[i]["noTelp"] << endl;
+            cout << "Password Nasabah   : " << dataNasabah[i]["password"] << endl;
+            cout << "NO KTP Nasabah     : " << dataNasabah[i]["noKtp"];
+            cetakGaris(40, yellow, '=');
+            ke++;
+        }
+    } else if (pilihan == 2) {
+
+        string id;
+        cout << "Masukkan ID Nasabah : ";
+        cin >> id;
+        
+        int indeks;
+        bool ada = false;
+        for (int i = 0 ; i < dataNasabah.size() ; i++){
+            if (dataNasabah[i]["id"] == id) {
+                indeks = i;
+                ada = true;
+                break;
+            }
+        }
+        
+        if (ada == false){
+            setWarnaFont(red);
+            cout << "\n" << "ID Nasabah " << id << " tidak ditemukan" << "\n";
+            setWarnaFont(reset);
+            return;
+        }
+
+        cout << "Berikut adalah data nasabah dengan id " << id << " :";
+        cetakGaris(40, yellow, '-');
+        cout << "ID Nasabah         : " << dataNasabah[indeks]["id"] << endl;
+        cout << "Nama Nasabah       : " << dataNasabah[indeks]["nama"] << endl;
+        cout << "E-Mail Nasabah     : " << dataNasabah[indeks]["email"] << endl;
+        cout << "No Telepon Nasabah : " << dataNasabah[indeks]["noTelp"] << endl;
+        cout << "Password Nasabah   : " << dataNasabah[indeks]["password"] << endl;
+        cout << "NO KTP Nasabah     : " << dataNasabah[indeks]["noKtp"];
+        cetakGaris(40, yellow, '=');
+
+    } else if (pilihan == 3) {
+
+        string namaNasabah;
+        cout << "Masukkan Nama Nasabah : ";
+        cin >> namaNasabah;
+        
+        int indeks;
+        bool ada = false;
+        for (int i = 0 ; i < dataNasabah.size() ; i++){
+            if (dataNasabah[i]["nama"] == namaNasabah) {
+                indeks = i;
+                ada = true;
+                break;
+            }
+        }
+        
+        if (ada == false){
+            setWarnaFont(red);
+            cout << "\n" << "Nama Nasabah " << namaNasabah << " tidak ditemukan" << "\n";
+            setWarnaFont(reset);
+            return;
+        }
+
+        cout << "Berikut adalah data nasabah dengan nama " << namaNasabah << " :";
+        cetakGaris(40, yellow, '-');
+        cout << "ID Nasabah         : " << dataNasabah[indeks]["id"] << endl;
+        cout << "Nama Nasabah       : " << dataNasabah[indeks]["nama"] << endl;
+        cout << "E-Mail Nasabah     : " << dataNasabah[indeks]["email"] << endl;
+        cout << "No Telepon Nasabah : " << dataNasabah[indeks]["noTelp"] << endl;
+        cout << "Password Nasabah   : " << dataNasabah[indeks]["password"] << endl;
+        cout << "NO KTP Nasabah     : " << dataNasabah[indeks]["noKtp"];
+        cetakGaris(40, yellow, '=');
+    } else {
+        setWarnaFont(red);
+        cout << "\n" << "Pilihan tidak tersedia" << "\n";
+        setWarnaFont(reset);
+        return;
+    }
 }
 
 void listDataGadai() {
     cout << "LIHAT DATA GADAI NASABAH";
+    
 }
 
 void cariDataGadai() {
