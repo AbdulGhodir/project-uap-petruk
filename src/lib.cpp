@@ -1,4 +1,5 @@
 #include "../include/lib.h"
+#include <vector>
 #include <iostream>
 
 void cetakGaris(int panjang, WARNA warna, char simbol) {
@@ -76,3 +77,27 @@ void setWarnaFont(WARNA warna) {
     }
 }
 
+
+std::string jatuhTempo(const std::string& tanggalGadai, int jangkaWaktu) {
+    std::vector<int> date;
+    date.push_back(stoi(tanggalGadai.substr(0, 2)) + jangkaWaktu);
+    date.push_back(stoi(tanggalGadai.substr(3, 4)));
+
+    date[1] += date[0] / 13;
+    date[0] %= 12;
+    date[0] = date[0] == 0 ? 12 : date[0];
+
+    std::string jatuhTempo;
+    for (int i = 0; i < date.size(); i++) {
+        if (date[i] < 10) {
+            jatuhTempo += '0' + std::to_string(date[i]);
+        } else {
+            jatuhTempo += std::to_string(date[i]);
+        }
+
+        if (i != 1) {
+            jatuhTempo += '/';
+        }
+    }
+    return jatuhTempo;
+}

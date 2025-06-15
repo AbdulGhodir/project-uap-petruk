@@ -11,41 +11,16 @@ using namespace std;
 // Sebuah fungsi pembantu yang digunakan untuk menghitung taksiran harga
 int taksiranHarga(int hargaBarang, int beratBarang) {
     if (beratBarang <= 5) {
-        return hargaBarang * 0.9;
+        return hargaBarang * 0.7;
     } else if (beratBarang <= 10) {
-        return hargaBarang * 0.85;
+        return hargaBarang * 0.75;
     } else if (beratBarang <= 20) {
-        return hargaBarang * 0.80;
+        return hargaBarang * 0.8;
     } else if (beratBarang <= 50) {
-        return hargaBarang * 0.70;
+        return hargaBarang * 0.85;
     } else {
-        return hargaBarang * 0.60;
+        return hargaBarang * 0.9;
     }
-}
-
-// Fungsi helper untuk menghitung jatuh tempo
-string jatuhTempo(const string& tanggalGadai, int jangkaWaktu) {
-    vector<int> date;
-    date.push_back(stoi(tanggalGadai.substr(0, 2)) + jangkaWaktu);
-    date.push_back(stoi(tanggalGadai.substr(3, 4)));
-
-    date[1] += date[0] / 13;
-    date[0] %= 12;
-    date[0] = date[0] == 0 ? 12 : date[0];
-
-    string jatuhTempo;
-    for (int i = 0; i < date.size(); i++) {
-        if (date[i] < 10) {
-            jatuhTempo += '0' + to_string(date[i]);
-        } else {
-            jatuhTempo += to_string(date[i]);
-        }
-
-        if (i != 1) {
-            jatuhTempo += '/';
-        }
-    }
-    return jatuhTempo;
 }
 
 // Fungsi helper untuk mencari data barang berdasarkan ID
@@ -60,9 +35,9 @@ unordered_map<string, string> cariBarangById(const vector<unordered_map<string, 
 }
 
 void ajukanGadai() {
-    MyDatabase barang("../data/barang.csv");
-    MyDatabase transaksi("../data/transaksi.csv");
-    MyDatabase penitipan("../data/penitipan.csv");
+    MyDatabase barang("data/barang.csv");
+    MyDatabase transaksi("data/transaksi.csv");
+    MyDatabase penitipan("data/penitipan.csv");
     
     unordered_map<string, string> tambahBarang;
     unordered_map<string, string> tambahTransaksi;
@@ -72,7 +47,7 @@ void ajukanGadai() {
     int hargaBarang, beratBarang, jangkaWaktu;
 
     cout << "=== AJUKAN GADAI ===" << endl;
-    MyDatabase user("../data/user.csv");
+    MyDatabase user("data/user.csv");
     vector<unordered_map<string, string>> dataUser;
     user.getData(dataUser);
 
@@ -186,9 +161,9 @@ void statusGadai() {
     cout << "Masukkan ID Transaksi : ";
     cin >> idTransaksi;
     
-    MyDatabase transaksi("../data/transaksi.csv");
-    MyDatabase barang("../data/barang.csv");
-    MyDatabase penitipan("../data/penitipan.csv");
+    MyDatabase transaksi("data/transaksi.csv");
+    MyDatabase barang("data/barang.csv");
+    MyDatabase penitipan("data/penitipan.csv");
     
     vector<unordered_map<string, string>> dataTransaksi;
     vector<unordered_map<string, string>> dataBarang;
@@ -286,9 +261,9 @@ void riwayatGadai() {
     cout << "Masukkan ID Nasabah anda : ";
     cin >> iduser;
     
-    MyDatabase transaksi("../data/transaksi.csv");
-    MyDatabase barang("../data/barang.csv");
-    MyDatabase penitipan("../data/penitipan.csv");
+    MyDatabase transaksi("data/transaksi.csv");
+    MyDatabase barang("data/barang.csv");
+    MyDatabase penitipan("data/penitipan.csv");
     
     vector<unordered_map<string, string>> dataTransaksi;
     vector<unordered_map<string, string>> dataBarang;
@@ -336,11 +311,3 @@ void riwayatGadai() {
         cout << "Tidak ada riwayat gadai untuk ID Nasabah: " << iduser << endl;
     }
 }
-
-// Keperluan Testing
-// int main(){
-//     ajukanGadai();
-//     statusGadai();
-//     riwayatGadai();
-//     return 0;
-// }

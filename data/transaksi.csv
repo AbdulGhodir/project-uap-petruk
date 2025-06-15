@@ -1,9 +1,4 @@
 id,idUser,idBarang,jenisTransaksi,tanggalGadai,totalHarga
-1,1,1,Pengajuan,06/2024,10000
-2,1,2,Pengajuan,09/1945,100000
-3,2,3,Pengajuan,12/2024,4500000
-4,2,4,Pengajuan,,0
-5,2,5,Pengajuan,03/2025,2070000
-6,9,6,Pengajuan,06/2025,1800000
-7,3,7,Pengajuan,06/2024,180000
-8,1,8,Pengajuan,01/2025,2700000
+1,1,1,Pengajuan,06/2025,10000
+2,1,2,Pengajuan,06/2025,100000
+3,2,3,Pengajuan,01/2024,100000

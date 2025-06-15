@@ -19,6 +19,7 @@ void menuNasabah() {
 
     int pilihan;
     cin >> pilihan;
+    cout << endl;
 
     switch (pilihan) {
         case 1:
