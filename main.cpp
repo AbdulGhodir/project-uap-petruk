@@ -88,7 +88,7 @@ int main() {
     // cout << "Masukkan role (admin/nasabah) : ";
     // cin >> akun;
     
-    menu("admin");
+    menu("nasabah");
 
 
 }
