@@ -72,6 +72,7 @@ void ajukanGadai() {
         }
     } while (!userDitemukan);
 
+    
     cout << "Selamat Datang " << foundUserData["nama"] << endl;
     cout << "Masukkan nama barang yang ingin digadaikan : ";
     cin.ignore();

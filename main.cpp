@@ -5,11 +5,11 @@
 #include "include/lib.h"
 #include "include/menu.h"
 
-namespace AUTH {
     void Login() {
         MyDatabase database("data/user.csv");
         std::string email, password;
 
+        std::cin.ignore();
         cetakGaris(40, green);
         setWarnaFont(blue);
         std::cout << "Silahkan Login Terlebih Dahulu" << "\n\n";
@@ -25,6 +25,7 @@ namespace AUTH {
             setWarnaFont(green);
             std::cout << "\n" << "Login berhasil";
             setWarnaFont(reset);
+            menu(user.role);
         } else {
             setWarnaFont(red);
             std::cout << "\n" << "Email \\ Password salah";
@@ -41,6 +42,7 @@ namespace AUTH {
 
         cetakGaris(40, magenta);
         do {
+            std::cin.ignore();
             setWarnaFont(blue);
             std::cout << "Silahkan Register Terlebih Dahulu" << "\n\n";
             setWarnaFont(reset);
@@ -80,13 +82,34 @@ namespace AUTH {
         }
         cetakGaris(40, magenta);
     }
-}
 
 int main() {
-    // CEK UDAH LOGIN ATAU BELUM
-    // std::string akun;
-    // cout << "Masukkan role (admin/nasabah) : ";
-    // cin >> akun;
     
-    menu("admin");
+    int pilihan;
+    do {
+        cetakGaris(40, yellow);
+        std::cout << "   SELAMAT DATANG DI SISTEM PEGADAIAN";
+        cetakGaris(40, yellow);
+        std::cout << "1. Login" << "\n"
+        << "2. Register" << "\n\n";
+
+        std::cout << "Masukkan pilhan anda: ";
+        std::cin >> pilihan;
+        switch (pilihan)
+        {
+        case 1:
+            Login();
+            break;
+        case 2:
+            Register();
+            break;
+        default:
+            setWarnaFont(red);
+            std::cout << "Pilihan tidak valid!!\n\n";
+            setWarnaFont(reset);
+            break;
+        }
+    } while(pilihan != 1);
+    
+    // menu("nasabah");
 }

@@ -79,6 +79,7 @@ bool MyDatabase::auth(const std::string& email, const std::string& password) {
                 user.nama = row.at("nama");
                 user.email = row.at("email");
                 user.noTelp = row.at("noTelp");
+                user.role = row.at("role");
                 return true;
             }
         }

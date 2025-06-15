@@ -10,6 +10,7 @@
         std::string noTelp = "null";
         std::string email = "null"; 
         std::string noKtp = "null";   
+        std::string role = "null";
     };
 
     // enum STATUS {
