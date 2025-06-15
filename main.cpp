@@ -111,5 +111,4 @@ int main() {
         }
     } while(pilihan != 1);
     
-    // menu("nasabah");
 }

@@ -80,7 +80,7 @@ void ajukanGadai() {
     unordered_map<string, string> tambahTransaksi;
     unordered_map<string, string> tambahPenitipan;
     
-    string namaBarang, idUser, tanggalGadai;
+    string namaBarang, tanggalGadai;
     int hargaBarang, beratBarang, jangkaWaktu;
 
     cout << "Sebelum anda mengajukan gadai, apakah anda ingin melihat rekomendasi barang untuk gadai ? (y/n) : ";
@@ -113,33 +113,33 @@ void ajukanGadai() {
     }
 
     cout << "\n=== AJUKAN GADAI ===" << endl;
-    MyDatabase user("data/user.csv");
+    MyDatabase MyUser("data/user.csv");
     vector<unordered_map<string, string>> dataUser;
-    user.getData(dataUser);
+    MyUser.getData(dataUser);
 
     bool userDitemukan = false;
     unordered_map<string, string> foundUserData;
 
-    do {
-        cout << "Masukkan ID nasabah : ";
-        cin >> idUser;
+    // do {
+    //     cout << "Masukkan ID nasabah : ";
+    //     cin >> idUser;
 
-        userDitemukan = false;
-        for (const auto& userData : dataUser) {
-            if (userData.at("id") == idUser) {
-                userDitemukan = true;
-                foundUserData = userData;
-                break;
-            }
-        }
+    //     userDitemukan = false;
+    //     for (const auto& userData : dataUser) {
+    //         if (userData.at("id") == idUser) {
+    //             userDitemukan = true;
+    //             foundUserData = userData;
+    //             break;
+    //         }
+    //     }
 
-        if (!userDitemukan) {
-            cout << "Error: User dengan ID " << idUser << " tidak ditemukan!" << endl;
-        }
-    } while (!userDitemukan);
+    //     if (!userDitemukan) {
+    //         cout << "Error: User dengan ID " << idUser << " tidak ditemukan!" << endl;
+    //     }
+    // } while (!userDitemukan);
 
     
-    cout << "Selamat Datang " << foundUserData["nama"] << endl;
+    cout << "Selamat Datang " << user.nama << endl;
     
     int jumlahBarang;
     cout << "Masukkan jumlah barang yang ingin digadaikan : ";
@@ -158,7 +158,7 @@ void ajukanGadai() {
         cout << "Masukkan jangka waktu gadai (bulan) : ";
         cin >> jangkaWaktu;
         
-        tambahBarang["idUser"] = idUser;
+        tambahBarang["idUser"] = user.id;
         tambahBarang["namaBarang"] = namaBarang;
         tambahBarang["hargaBarang"] = to_string(hargaBarang);
         tambahBarang["beratBarang"] = to_string(beratBarang);
@@ -173,7 +173,7 @@ void ajukanGadai() {
         string idBarangBaru = "";
         for (int i = dataBarang.size() - 1; i >= 0; i--) {
             if (dataBarang[i]["namaBarang"] == namaBarang && 
-                dataBarang[i]["idUser"] == idUser &&
+                dataBarang[i]["idUser"] == user.id &&
                 dataBarang[i]["hargaBarang"] == to_string(hargaBarang)) {
                 idBarangBaru = dataBarang[i]["id"];
                 break;
@@ -186,7 +186,7 @@ void ajukanGadai() {
         }
         
         tambahTransaksi["idBarang"] = idBarangBaru;
-        tambahTransaksi["idUser"] = idUser;
+        tambahTransaksi["idUser"] = user.id;
         tambahTransaksi["tanggalGadai"] = tanggalGadai;
         tambahTransaksi["jenisTransaksi"] = "Pengajuan"; // Default untuk nasabah
         tambahTransaksi["totalHarga"] = to_string(taksiranHarga(hargaBarang, beratBarang));
@@ -200,7 +200,7 @@ void ajukanGadai() {
         string idTransaksiBaru = "";
         for (int i = dataTransaksi.size() - 1; i >= 0; i--) {
             if (dataTransaksi[i]["idBarang"] == idBarangBaru && 
-                dataTransaksi[i]["idUser"] == idUser &&
+                dataTransaksi[i]["idUser"] == user.id &&
                 dataTransaksi[i]["jenisTransaksi"] == "Pengajuan") {
                 idTransaksiBaru = dataTransaksi[i]["id"];
                 break;
