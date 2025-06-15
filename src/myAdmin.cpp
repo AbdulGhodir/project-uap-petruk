@@ -163,26 +163,57 @@ void listDataIdentitas() {
     cout << endl;   
 
     if (pilihan == 1) {
-        int ke = 1;
+        char pil;
+        do {
+            int ke = 1;
 
-        cetakGaris(45, yellow, '=');
-        cout << "          List Data Identitas Nasabah";
-        cetakGaris(45, yellow, '=');
-
-        for (int i = 0; i < dataNasabah.size(); i++) {
-            if (dataNasabah[i]["role"] != "user") continue;
-            
-            cout << "\nNasabah ke-" << ke;
-            cetakGaris(12, yellow, '-');    
-            cout << "ID Nasabah         : " << dataNasabah[i]["id"] << endl;
-            cout << "Nama Nasabah       : " << dataNasabah[i]["nama"] << endl;
-            cout << "E-Mail Nasabah     : " << dataNasabah[i]["email"] << endl;
-            cout << "No Telepon Nasabah : " << dataNasabah[i]["noTelp"] << endl;
-            cout << "Password Nasabah   : " << dataNasabah[i]["password"] << endl;
-            cout << "NO KTP Nasabah     : " << dataNasabah[i]["noKtp"] << endl;
             cetakGaris(45, yellow, '=');
-            ke++;
-        }
+            cout << "          List Data Identitas Nasabah";
+            cetakGaris(45, yellow, '=');
+
+            for (int i = 0; i < dataNasabah.size(); i++) {
+                if (dataNasabah[i]["role"] != "user") continue;
+                
+                cout << "\nNasabah ke-" << ke;
+                cetakGaris(12, yellow, '-');    
+                cout << "ID Nasabah         : " << dataNasabah[i]["id"] << endl;
+                cout << "Nama Nasabah       : " << dataNasabah[i]["nama"] << endl;
+                cout << "E-Mail Nasabah     : " << dataNasabah[i]["email"] << endl;
+                cout << "No Telepon Nasabah : " << dataNasabah[i]["noTelp"] << endl;
+                cout << "Password Nasabah   : " << dataNasabah[i]["password"] << endl;
+                cout << "NO KTP Nasabah     : " << dataNasabah[i]["noKtp"] << endl;
+                cetakGaris(45, yellow, '=');
+                ke++;
+            }
+
+            cout << "Apakah ingin mengurutkan data? (y/n) : ";
+            cin >> pil;
+
+            if (pil == 'y' || pil == 'Y') {
+                cout << "\nSilahkan Pilih Urutan Data yang Ingin Ditampilkan :\n";
+                cout << "1. Urutkan berdasarkan ID Nasabah (Menurun)\n";
+                cout << "2. Urutkan berdasarkan ID Nasabah (Menaik)\n";
+                cout << "3. Urutkan berdasarkan Nama Nasabah (Menurun)\n";
+                cout << "4. Urutkan berdasarkan Nama Nasabah (Menaik)\n";
+                cout << "Masukkan Pilihan Anda : ";
+                int choose;
+                cin >> choose;
+
+                if (choose == 1) {
+                    mergeSort(dataNasabah, 0, dataNasabah.size() - 1, false,"id");
+                } else if (choose == 2) {
+                    mergeSort(dataNasabah, 0, dataNasabah.size() - 1, true, "id");
+                } else if (choose == 3) {
+                    mergeSort(dataNasabah, 0, dataNasabah.size() - 1, false, "nama");
+                } else if (choose == 4) {
+                    mergeSort(dataNasabah, 0, dataNasabah.size() - 1, true, "nama");
+                } else {
+                    cout << "Pilihan tidak tersedia" << endl;
+                    pil = 'n';
+                }
+            }
+        } while (pil == 'y' || pil == 'Y');
+
     } else if (pilihan == 2) {
 
         string id;
@@ -203,7 +234,7 @@ void listDataIdentitas() {
             setWarnaFont(red);
             cout << "\n" << "ID Nasabah " << id << " tidak ditemukan" << "\n";
             setWarnaFont(reset);
-            return;
+            menuAdmin();
         }
 
         cout << "Berikut adalah data nasabah dengan ID " << id << ":";
@@ -236,7 +267,7 @@ void listDataIdentitas() {
             setWarnaFont(red);
             cout << "\n" << "Nama Nasabah " << namaNasabah << " tidak ditemukan" << "\n";
             setWarnaFont(reset);
-            return;
+            menuAdmin();
         }
 
         cout << "Berikut adalah data nasabah dengan nama " << namaNasabah << ":";
@@ -252,7 +283,6 @@ void listDataIdentitas() {
         setWarnaFont(red);
         cout << "\n" << "Pilihan tidak tersedia" << "\n";
         setWarnaFont(reset);
-        return;
     }
 }
 
@@ -602,13 +632,11 @@ void cariDataGadai() {
             cetakGaris(40, yellow, '=');
         }
 
-
-
     } else {
         setWarnaFont(red);
         cout << "\n" << "Pilihan tidak tersedia" << "\n";
         setWarnaFont(reset);
-        return;
+        menuAdmin();
     }
 }
 
@@ -669,11 +697,10 @@ void ubahStatusGadai() {
     } 
 
     if (ada == false){
-                setWarnaFont(red);
-                cout << "Pilihan tidak tersedia" << endl;
-                setWarnaFont(reset);
+        setWarnaFont(red);
+        cout << "Pilihan tidak tersedia" << endl;
+        setWarnaFont(reset);
     }
-
 }
 
 void hapusDataGadai() {
@@ -682,7 +709,7 @@ void hapusDataGadai() {
     setWarnaFont(reset);
     cout <<"HAPUS DATA GADAI";
     setWarnaFont(yellow);
-    cout << " ===========\n\n";
+    cout << " ===========\n";
     setWarnaFont(reset);
 
     MyDatabase barang("data/barang.csv");
@@ -703,7 +730,7 @@ void hapusDataGadai() {
         setWarnaFont(red);
         cout << "Data gadai masih kosong" << endl;
         setWarnaFont(reset);
-        return;
+        menuAdmin();
     }
 
     cout << "\nMasukkan ID Barang yang ingin dihapus : ";
@@ -727,7 +754,7 @@ void hapusDataGadai() {
         setWarnaFont(red);
         cout << "Barang dengan ID " << idBarang << " tidak ditemukan" << endl;
         setWarnaFont(reset);
-        return;
+        menuAdmin();
     } else {
         cout << "Berikut adalah data barang dengan ID " << idBarang << ":" << endl;
         cout << "Nama Barang    : " << dataBarangId["namaBarang"] << endl;
@@ -753,4 +780,3 @@ void hapusDataGadai() {
         }   
     }   
 }
-

@@ -50,7 +50,7 @@ void menuAdmin() {
     cout << "1. Tambah Data Gadai\n";
     cout << "2. Lihat Data Identitas Nasabah\n";
     cout << "3. Lihat Semua Data Gadai Nasabah\n";
-    cout << "4. Cari Data  Berdasarkan Nama Nasabah\n";
+    cout << "4. Cari Data Gadai Berdasarkan Kategori\n";
     cout << "5. Ubah Status Gadai\n";
     cout << "6. Hapus Data Gadai\n";
     cout << "7. Keluar\n";
