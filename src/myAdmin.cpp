@@ -677,6 +677,80 @@ void ubahStatusGadai() {
 }
 
 void hapusDataGadai() {
+    setWarnaFont(yellow);
+    cout << "========== ";
+    setWarnaFont(reset);
+    cout <<"HAPUS DATA GADAI";
+    setWarnaFont(yellow);
+    cout << " ===========\n\n";
+    setWarnaFont(reset);
+
+    MyDatabase barang("data/barang.csv");
+    MyDatabase penitipan("data/penitipan.csv");
+    MyDatabase transaksi("data/transaksi.csv");
+    MyDatabase nasabah("data/user.csv");
+
+    vector<unordered_map<string, string>> dataBarang;
+    vector<unordered_map<string, string>> dataPenitipan;
+    vector<unordered_map<string, string>> dataTransaksi;
+    vector<unordered_map<string, string>> dataNasabah;
+    barang.getData(dataBarang);
+    penitipan.getData(dataPenitipan);
+    transaksi.getData(dataTransaksi);
+    nasabah.getData(dataNasabah);
     
+    if (dataBarang.empty() || dataPenitipan.empty() || dataTransaksi.empty() || dataNasabah.empty()) {
+        setWarnaFont(red);
+        cout << "Data gadai masih kosong" << endl;
+        setWarnaFont(reset);
+        return;
+    }
+
+    cout << "\nMasukkan ID Barang yang ingin dihapus : ";
+    string idBarang;
+    cin >> idBarang;
+
+    unordered_map<string, string> dataBarangId;
+
+    bool found = false;
+    int indeks;
+    for (int i = 0; i < dataBarang.size(); i++) {
+        if (dataBarang[i]["id"] == idBarang) {
+            dataBarangId = dataBarang[i];
+            indeks = i;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        setWarnaFont(red);
+        cout << "Barang dengan ID " << idBarang << " tidak ditemukan" << endl;
+        setWarnaFont(reset);
+        return;
+    } else {
+        cout << "Berikut adalah data barang dengan ID " << idBarang << ":" << endl;
+        cout << "Nama Barang    : " << dataBarangId["namaBarang"] << endl;
+        cout << "Berat Barang   : " << dataBarangId["beratBarang"] << " Kg" << endl;
+        cout << "Harga Barang   : " << "Rp " << dataBarangId["hargaBarang"] << endl;
+        cout << "Status Gadai   : " << dataBarangId["statusBarang"] << endl;
+        cout << "Tanggal Gadai  : " << dataTransaksi[indeks]["tanggalGadai"] << endl;
+        setWarnaFont(blue);
+        cout << "ID Nasabah     : " << dataBarangId["idUser"] << endl;
+        cout << "Nama Nasabah   : " << dataNasabah[stoi(dataBarangId["idUser"]) - 1]["nama"] << endl;
+        setWarnaFont(reset);
+
+        cout << "\nApakah anda yakin ingin menghapus data barang dengan ID " << idBarang << " ? (y/n) : ";
+        char pilihan;
+        cin >> pilihan;
+        if (pilihan == 'y' || pilihan == 'Y') {
+            barang.deleteData(idBarang);
+            penitipan.deleteData(idBarang);
+            transaksi.deleteData(idBarang);
+            setWarnaFont(green);
+            cout << "Data barang dengan ID " << idBarang << " berhasil dihapus" << endl;
+            setWarnaFont(reset);
+        }   
+    }   
 }
 
