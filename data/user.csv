@@ -1,7 +1,7 @@
 id,nama,email,noTelp,password,noKtp,role
 1,Rafly,966raflisaputra@gmail.com,085333369015,12345,null,admin
 2,Lili ramadhani,liliramadhani@gmail.com,0852313141,12345,null,user
-3,raflysaputraa,raflysaputraa@gmail.com,0876414141,1234,null,user
-4,lili,lili@gmail.com,0876314124,12345,null,user
-5,jono,jono@gmail.com,0866124141,12345,null,user
-6,araa,jono@gmail.com,0866124141,12345,null,admin
+3,Raflysaputraa,raflysaputraa@gmail.com,0876414141,1234,null,user
+4,Lili,lili@gmail.com,0876314124,12345,null,user
+5,Jono,jono@gmail.com,0866124141,12345,null,user
+6,Araa,jono@gmail.com,0866124141,12345,null,admin

@@ -1,5 +1,6 @@
 #include "../include/lib.h"
 #include <vector>
+#include <unordered_map>
 #include <iostream>
 
 void cetakGaris(int panjang, WARNA warna, char simbol) {
@@ -100,4 +101,41 @@ std::string jatuhTempo(const std::string& tanggalGadai, int jangkaWaktu) {
         }
     }
     return jatuhTempo;
+}
+
+// Funsi Merge Sort
+void merge(std::vector<std::unordered_map<std::string, std::string>>& data, int begin, int middle, int end, bool descending, std::string key) {
+    int leftSize = middle - begin + 1;
+    int rightSize = end - middle;
+
+    std::vector<std::unordered_map<std::string, std::string>> left(leftSize), right(rightSize);
+    for (int i = 0; i < leftSize; ++i)
+        left[i] = data[begin + i];
+    for (int j = 0; j < rightSize; ++j)
+        right[j] = data[middle + 1 + j];
+
+    int leftIndex = 0, rightIndex = 0, dataIndex = begin;
+
+    while (leftIndex < leftSize && rightIndex < rightSize) {
+        std::string leftId = left[leftIndex][key];
+        std::string rightId = right[rightIndex][key];
+
+        if ((descending && leftId > rightId) || (!descending && leftId < rightId)) {
+            data[dataIndex++] = left[leftIndex++];
+        } else {
+            data[dataIndex++] = right[rightIndex++];
+        }
+    }
+
+    while (leftIndex < leftSize) data[dataIndex++] = left[leftIndex++];
+    while (rightIndex < rightSize) data[dataIndex++] = right[rightIndex++];
+}
+
+void mergeSort(std::vector<std::unordered_map<std::string, std::string>>& data, int left, int right, bool descending, std::string key) {
+    if (left < right) {
+        int middle = left + (right - left) / 2;
+        mergeSort(data, left, middle, descending, key);
+        mergeSort(data, middle + 1, right, descending, key);
+        merge(data, left, middle, right, descending, key);
+    }
 }

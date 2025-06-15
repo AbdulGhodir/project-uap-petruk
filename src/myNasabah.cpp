@@ -23,6 +23,43 @@ int taksiranHarga(int hargaBarang, int beratBarang) {
     }
 }
 
+void knapsack(const vector<string>& namaBarang, const vector<string>& beratBarang, const vector<string>& hargaBarang, int kapasitas) {
+    int n = namaBarang.size();
+    vector<int> berat(n), harga(n);
+
+    // Konversi string ke int
+    for (int i = 0; i < n; ++i) {
+        berat[i] = stoi(beratBarang[i]);
+        harga[i] = stoi(hargaBarang[i]);
+    }
+
+    vector<vector<int>> dp(n + 1, vector<int>(kapasitas + 1, 0));
+
+    for (int i = 1; i <= n; ++i) {
+        for (int w = 0; w <= kapasitas; ++w) {
+            if (berat[i - 1] <= w) {
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - berat[i - 1]] + harga[i - 1]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+
+    cout << "=== HASIL Rekomendasi ===" << endl;
+    cout << "\nTotal harga maksimal yang bisa diperoleh : Rp " << dp[n][kapasitas] << endl;
+
+    int w = kapasitas;
+    cout << "Barang yang dipilih :\n";
+    for (int i = n; i > 0; --i) {
+        if (dp[i][w] != dp[i - 1][w]) {
+            cout << "- " << namaBarang[i - 1]
+                 << " (berat: " << berat[i - 1]
+                 << " kg, Harga : Rp " << harga[i - 1] << ")\n";
+            w -= berat[i - 1];
+        }
+    }
+}
+
 // Fungsi helper untuk mencari data barang berdasarkan ID
 unordered_map<string, string> cariBarangById(const vector<unordered_map<string, string>>& dataBarang, const string& idBarang) {
     for (int i = 0; i < dataBarang.size(); i++) {
@@ -46,7 +83,36 @@ void ajukanGadai() {
     string namaBarang, idUser, tanggalGadai;
     int hargaBarang, beratBarang, jangkaWaktu;
 
-    cout << "=== AJUKAN GADAI ===" << endl;
+    cout << "Sebelum anda mengajukan gadai, apakah anda ingin melihat rekomendasi barang untuk gadai ? (y/n) : ";
+    char pilihan;
+    cin >> pilihan;
+
+    if (pilihan == 'y' || pilihan == 'Y') {
+        cout << "=== REKOMENDASI BARANG ===" << endl;
+        cout << "Masukkan jumlah barang yang ingin digadaikan : ";
+
+        vector<string> Barang, Harga, Berat;
+        int jumlahBarang;
+        cin >> jumlahBarang;
+
+        string barang, berat, harga;
+        for (int i = 0; i < jumlahBarang; i++) {
+            cout << "Masukkan nama barang ke-" << i + 1 << " : ";
+            cin.ignore();
+            getline(cin, barang);
+            cout << "Masukkan harga barang ke-" << i + 1 << " (Rp) : ";
+            cin >> harga;
+            cout << "Masukkan berat barang ke-" << i + 1 << " (Kg) : ";
+            cin >> berat;
+
+            Barang.push_back(barang);
+            Harga.push_back(to_string(taksiranHarga(stoi(harga), stoi(berat))));
+            Berat.push_back(berat);
+        }
+        knapsack(Barang, Berat, Harga, 50);
+    }
+
+    cout << "\n=== AJUKAN GADAI ===" << endl;
     MyDatabase user("data/user.csv");
     vector<unordered_map<string, string>> dataUser;
     user.getData(dataUser);
@@ -74,86 +140,93 @@ void ajukanGadai() {
 
     
     cout << "Selamat Datang " << foundUserData["nama"] << endl;
-    cout << "Masukkan nama barang yang ingin digadaikan : ";
-    cin.ignore();
-    getline(cin, namaBarang);
-    cout << "Masukkan harga barang : ";
-    cin >> hargaBarang;
-    cout << "Masukkan berat barang (kg) : ";
-    cin >> beratBarang;
-    cout << "Masukkan tanggal gadai (format mm/yyyy, contoh: 06/2025) : ";
-    cin >> tanggalGadai;
-    cout << "Masukkan jangka waktu gadai (bulan) : ";
-    cin >> jangkaWaktu;
     
-    tambahBarang["idUser"] = idUser;
-    tambahBarang["namaBarang"] = namaBarang;
-    tambahBarang["hargaBarang"] = to_string(hargaBarang);
-    tambahBarang["beratBarang"] = to_string(beratBarang);
-    tambahBarang["statusBarang"] = "Berlangsung"; // Default status untuk pengajuan baru
-    
-    barang.writeData(tambahBarang);
-    cout << "✓ Data barang berhasil disimpan!" << endl;
-    
-    vector<unordered_map<string, string>> dataBarang;
-    barang.getData(dataBarang);
-    
-    string idBarangBaru = "";
-    for (int i = dataBarang.size() - 1; i >= 0; i--) {
-        if (dataBarang[i]["namaBarang"] == namaBarang && 
-            dataBarang[i]["idUser"] == idUser &&
-            dataBarang[i]["hargaBarang"] == to_string(hargaBarang)) {
-            idBarangBaru = dataBarang[i]["id"];
-            break;
+    int jumlahBarang;
+    cout << "Masukkan jumlah barang yang ingin digadaikan : ";
+    cin >> jumlahBarang;
+    for (int i = 0; i < jumlahBarang; i++) {
+        cout << "Barang ke-" << i + 1 << endl;
+        cout << "Masukkan nama barang yang ingin digadaikan : ";
+        cin.ignore();
+        getline(cin, namaBarang);
+        cout << "Masukkan harga barang : ";
+        cin >> hargaBarang;
+        cout << "Masukkan berat barang (kg) : ";
+        cin >> beratBarang;
+        cout << "Masukkan tanggal gadai (format mm/yyyy, contoh: 06/2025) : ";
+        cin >> tanggalGadai;
+        cout << "Masukkan jangka waktu gadai (bulan) : ";
+        cin >> jangkaWaktu;
+        
+        tambahBarang["idUser"] = idUser;
+        tambahBarang["namaBarang"] = namaBarang;
+        tambahBarang["hargaBarang"] = to_string(hargaBarang);
+        tambahBarang["beratBarang"] = to_string(beratBarang);
+        tambahBarang["statusBarang"] = "Berlangsung"; // Default status untuk pengajuan baru
+        
+        barang.writeData(tambahBarang);
+        cout << "✓ Data barang berhasil disimpan!" << endl;
+        
+        vector<unordered_map<string, string>> dataBarang;
+        barang.getData(dataBarang);
+        
+        string idBarangBaru = "";
+        for (int i = dataBarang.size() - 1; i >= 0; i--) {
+            if (dataBarang[i]["namaBarang"] == namaBarang && 
+                dataBarang[i]["idUser"] == idUser &&
+                dataBarang[i]["hargaBarang"] == to_string(hargaBarang)) {
+                idBarangBaru = dataBarang[i]["id"];
+                break;
+            }
         }
-    }
-    
-    if (idBarangBaru.empty()) {
-        cout << "Error: Gagal menemukan data barang yang baru ditambahkan!" << endl;
-        return;
-    }
-    
-    tambahTransaksi["idBarang"] = idBarangBaru;
-    tambahTransaksi["idUser"] = idUser;
-    tambahTransaksi["tanggalGadai"] = tanggalGadai;
-    tambahTransaksi["jenisTransaksi"] = "Pengajuan"; // Default untuk nasabah
-    tambahTransaksi["totalHarga"] = to_string(taksiranHarga(hargaBarang, beratBarang));
-    
-    transaksi.writeData(tambahTransaksi);
-    cout << "✓ Data transaksi berhasil disimpan!" << endl;
-    
-    vector<unordered_map<string, string>> dataTransaksi;
-    transaksi.getData(dataTransaksi);
-    
-    string idTransaksiBaru = "";
-    for (int i = dataTransaksi.size() - 1; i >= 0; i--) {
-        if (dataTransaksi[i]["idBarang"] == idBarangBaru && 
-            dataTransaksi[i]["idUser"] == idUser &&
-            dataTransaksi[i]["jenisTransaksi"] == "Pengajuan") {
-            idTransaksiBaru = dataTransaksi[i]["id"];
-            break;
+        
+        if (idBarangBaru.empty()) {
+            cout << "Error: Gagal menemukan data barang yang baru ditambahkan!" << endl;
+            return;
         }
+        
+        tambahTransaksi["idBarang"] = idBarangBaru;
+        tambahTransaksi["idUser"] = idUser;
+        tambahTransaksi["tanggalGadai"] = tanggalGadai;
+        tambahTransaksi["jenisTransaksi"] = "Pengajuan"; // Default untuk nasabah
+        tambahTransaksi["totalHarga"] = to_string(taksiranHarga(hargaBarang, beratBarang));
+        
+        transaksi.writeData(tambahTransaksi);
+        cout << "✓ Data transaksi berhasil disimpan!" << endl;
+        
+        vector<unordered_map<string, string>> dataTransaksi;
+        transaksi.getData(dataTransaksi);
+        
+        string idTransaksiBaru = "";
+        for (int i = dataTransaksi.size() - 1; i >= 0; i--) {
+            if (dataTransaksi[i]["idBarang"] == idBarangBaru && 
+                dataTransaksi[i]["idUser"] == idUser &&
+                dataTransaksi[i]["jenisTransaksi"] == "Pengajuan") {
+                idTransaksiBaru = dataTransaksi[i]["id"];
+                break;
+            }
+        }
+        
+        tambahPenitipan["idBarang"] = idBarangBaru;
+        tambahPenitipan["tanggalGadai"] = tanggalGadai;
+        tambahPenitipan["jatuhTempo"] = jatuhTempo(tanggalGadai, jangkaWaktu);
+        
+        penitipan.writeData(tambahPenitipan);
+        cout << "✓ Data penitipan berhasil disimpan!" << endl;
+        
+        cout << "\n=== RINGKASAN PENGAJUAN GADAI BARANG KE " << i + 1 << " ===" << endl;
+        cout << "ID Transaksi    : " << idTransaksiBaru << endl;
+        cout << "ID Barang       : " << idBarangBaru << endl;
+        cout << "Nama Barang     : " << namaBarang << endl;
+        cout << "Harga Barang    : Rp " << hargaBarang << endl;
+        cout << "Berat Barang    : " << beratBarang << " kg" << endl;
+        cout << "Taksiran Harga  : Rp " << taksiranHarga(hargaBarang, beratBarang) << endl;
+        cout << "Tanggal Gadai   : " << tanggalGadai << endl;
+        cout << "Jangka Waktu    : " << jangkaWaktu << " bulan" << endl;
+        cout << "Jatuh Tempo     : " << jatuhTempo(tanggalGadai, jangkaWaktu) << endl;
+        cout << "Status          : Menunggu Persetujuan Admin" << endl;
+        cout << "\nPengajuan gadai berhasil disimpan ke semua database!" << endl;
     }
-    
-    tambahPenitipan["idBarang"] = idBarangBaru;
-    tambahPenitipan["tanggalGadai"] = tanggalGadai;
-    tambahPenitipan["jatuhTempo"] = jatuhTempo(tanggalGadai, jangkaWaktu);
-    
-    penitipan.writeData(tambahPenitipan);
-    cout << "✓ Data penitipan berhasil disimpan!" << endl;
-    
-    cout << "\n=== RINGKASAN PENGAJUAN GADAI ===" << endl;
-    cout << "ID Transaksi    : " << idTransaksiBaru << endl;
-    cout << "ID Barang       : " << idBarangBaru << endl;
-    cout << "Nama Barang     : " << namaBarang << endl;
-    cout << "Harga Barang    : Rp " << hargaBarang << endl;
-    cout << "Berat Barang    : " << beratBarang << " kg" << endl;
-    cout << "Taksiran Harga  : Rp " << taksiranHarga(hargaBarang, beratBarang) << endl;
-    cout << "Tanggal Gadai   : " << tanggalGadai << endl;
-    cout << "Jangka Waktu    : " << jangkaWaktu << " bulan" << endl;
-    cout << "Jatuh Tempo     : " << jatuhTempo(tanggalGadai, jangkaWaktu) << endl;
-    cout << "Status          : Menunggu Persetujuan Admin" << endl;
-    cout << "\nPengajuan gadai berhasil disimpan ke semua database!" << endl;
 }
 
 void statusGadai() {
