@@ -43,7 +43,7 @@ void menuNasabah() {
 void menuAdmin() {
     cetakGaris(40, yellow);
     cout << "   SELAMAT DATANG DI SISTEM PEGADAIAN\n";
-    cout << "       Aman, Cepat, dan Terpercya";
+    cout << "       Aman, Cepat, dan Terpercaya";
     cetakGaris(40, yellow);
 
     cout << "Silahkan Pilih Menu Berikut :\n";

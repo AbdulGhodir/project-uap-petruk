@@ -148,11 +148,15 @@ void listDataIdentitas() {
     vector<unordered_map<string, string>> dataNasabah;
     nasabah.getData(dataNasabah);
 
-    cout << "Silahkan Pilih Data yang Ingin Ditampilkan :\n";
+    cetakGaris(45, yellow);
+    cout << "         LIHAT DATA IDENTITAS NASABAH";
+    cetakGaris(45, yellow);
+
+    cout << "\nSilahkan Pilih Data yang Ingin Ditampilkan :\n";
     cout << "1. Semua Data Identitas\n";
     cout << "2. Data Identitas Berdasarkan ID Nasabah\n";
     cout << "3. Data Identitas Berdasarkan Nama Nasabah\n";
-    cout << "Masukkan Pilihan Anda : ";
+    cout << "Masukkan Pilihan Anda: ";
 
     int pilihan;
     cin >> pilihan;
@@ -160,6 +164,10 @@ void listDataIdentitas() {
 
     if (pilihan == 1) {
         int ke = 1;
+
+        cetakGaris(45, yellow, '=');
+        cout << "          List Data Identitas Nasabah";
+        cetakGaris(45, yellow, '=');
 
         for (int i = 0; i < dataNasabah.size(); i++) {
             if (dataNasabah[i]["role"] != "user") continue;
@@ -171,14 +179,14 @@ void listDataIdentitas() {
             cout << "E-Mail Nasabah     : " << dataNasabah[i]["email"] << endl;
             cout << "No Telepon Nasabah : " << dataNasabah[i]["noTelp"] << endl;
             cout << "Password Nasabah   : " << dataNasabah[i]["password"] << endl;
-            cout << "NO KTP Nasabah     : " << dataNasabah[i]["noKtp"];
-            cetakGaris(40, yellow, '=');
+            cout << "NO KTP Nasabah     : " << dataNasabah[i]["noKtp"] << endl;
+            cetakGaris(45, yellow, '=');
             ke++;
         }
     } else if (pilihan == 2) {
 
         string id;
-        cout << "Masukkan ID Nasabah : ";
+        cout << "Masukkan ID Nasabah: ";
         cin >> id;
         
         int indeks;
@@ -198,20 +206,20 @@ void listDataIdentitas() {
             return;
         }
 
-        cout << "Berikut adalah data nasabah dengan id " << id << " :";
-        cetakGaris(40, yellow, '-');
+        cout << "Berikut adalah data nasabah dengan ID " << id << ":";
+        cetakGaris(45, yellow, '-');
         cout << "ID Nasabah         : " << dataNasabah[indeks]["id"] << endl;
         cout << "Nama Nasabah       : " << dataNasabah[indeks]["nama"] << endl;
         cout << "E-Mail Nasabah     : " << dataNasabah[indeks]["email"] << endl;
         cout << "No Telepon Nasabah : " << dataNasabah[indeks]["noTelp"] << endl;
         cout << "Password Nasabah   : " << dataNasabah[indeks]["password"] << endl;
         cout << "NO KTP Nasabah     : " << dataNasabah[indeks]["noKtp"];
-        cetakGaris(40, yellow, '=');
+        cetakGaris(45, yellow, '=');
 
     } else if (pilihan == 3) {
 
         string namaNasabah;
-        cout << "Masukkan Nama Nasabah : ";
+        cout << "Masukkan Nama Nasabah: ";
         cin >> namaNasabah;
         
         int indeks;
@@ -231,15 +239,15 @@ void listDataIdentitas() {
             return;
         }
 
-        cout << "Berikut adalah data nasabah dengan nama " << namaNasabah << " :";
-        cetakGaris(40, yellow, '-');
+        cout << "Berikut adalah data nasabah dengan nama " << namaNasabah << ":";
+        cetakGaris(45, yellow, '-');
         cout << "ID Nasabah         : " << dataNasabah[indeks]["id"] << endl;
         cout << "Nama Nasabah       : " << dataNasabah[indeks]["nama"] << endl;
         cout << "E-Mail Nasabah     : " << dataNasabah[indeks]["email"] << endl;
         cout << "No Telepon Nasabah : " << dataNasabah[indeks]["noTelp"] << endl;
         cout << "Password Nasabah   : " << dataNasabah[indeks]["password"] << endl;
         cout << "NO KTP Nasabah     : " << dataNasabah[indeks]["noKtp"];
-        cetakGaris(40, yellow, '=');
+        cetakGaris(45, yellow, '=');
     } else {
         setWarnaFont(red);
         cout << "\n" << "Pilihan tidak tersedia" << "\n";
@@ -249,8 +257,47 @@ void listDataIdentitas() {
 }
 
 void listDataGadai() {
-    cout << "LIHAT DATA GADAI NASABAH";
-    
+    MyDatabase barang("data/barang.csv");
+    MyDatabase penitipan("data/penitipan.csv");
+    MyDatabase transaksi("data/transaksi.csv");
+    MyDatabase nasabah("data/user.csv");
+
+    vector<unordered_map<string, string>> lihatBarang;
+    vector<unordered_map<string, string>> lihatPenitipan;
+    vector<unordered_map<string, string>> lihatTransaksi;
+    vector<unordered_map<string, string>> lihatNasabah;
+
+    barang.getData(lihatBarang);
+    penitipan.getData(lihatPenitipan);
+    transaksi.getData(lihatTransaksi);
+    nasabah.getData(lihatNasabah);
+
+    cetakGaris(45, yellow, '-');
+    cout << "           List Data Gadai Nasabah";
+    cetakGaris(45, yellow, '-');
+    cout << endl;
+
+    for (int i = 0 ; i < lihatBarang.size() ; i++){
+        cout << "Nama Barang            : " << lihatBarang[i]["namaBarang"] << endl;
+        cout << "ID Barang              : " << lihatBarang[i]["id"] << endl;
+        cout << "ID Transaksi           : " << lihatTransaksi[i]["id"] << endl;
+        cout << "ID Nasabah             : " << lihatBarang[i]["idUser"] << endl;
+
+        for (int i = 0 ; i < lihatNasabah.size() ; i++){
+            if (lihatBarang[i]["idUser"] == lihatNasabah[i]["id"]){
+                cout << "Nama Nasabah           : " << lihatNasabah[i]["nama"] << endl;
+                break;
+            }
+        }
+        cout << "Berat Barang           : " << lihatBarang[i]["beratBarang"] << " kg" << endl;
+        cout << "Harga Barang           : " << "Rp " << lihatBarang[i]["hargaBarang"] << endl;
+        cout << "Tanggal Penggadaian    : " << lihatPenitipan[i]["tanggalGadai"] << endl;
+        cout << "Tanggal Jatuh Tempo    : " << lihatPenitipan[i]["jatuhTempo"] << endl;
+        cout << "Jenis Transaksi        : " << lihatTransaksi[i]["jenisTransaksi"] << endl;
+        cout << "Status Gadai           : " << lihatBarang[i]["statusBarang"];
+        cetakGaris(45, yellow, '=');
+    }
+
 }
 
 void cariDataGadai() {
@@ -566,7 +613,67 @@ void cariDataGadai() {
 }
 
 void ubahStatusGadai() {
-    
+    //cetakGaris(40, yellow);
+    setWarnaFont(yellow);
+    cout << "========== ";
+    setWarnaFont(reset);
+    cout <<"UBAH STATUS GADAI ";
+    setWarnaFont(yellow);
+    cout << "===========\n";
+    setWarnaFont(reset);
+    //cetakGaris(40, yellow);
+
+    cout << "\nCari ID Barang yang ingin diubah: ";
+    string cariID;
+    cin >> cariID;
+
+    MyDatabase barang("data/barang.csv");
+    vector<unordered_map<string, string>> lihatBarang;
+    barang.getData(lihatBarang);
+
+    string statusBarang;
+    bool ada = false;
+    for (int i = 0 ; i < lihatBarang.size() ; i++){
+        if (lihatBarang[i]["id"] == cariID){
+            cout << "Nama Barang    : " << lihatBarang[i]["namaBarang"] << endl;
+            cout << "Harga Barang   : " << lihatBarang[i]["hargaBarang"] << endl;
+            cout << "Status Gadai   : " << lihatBarang[i]["statusBarang"] << endl;
+
+            cetakGaris(40, yellow, '-');
+            cout << "\nSilahkan update status gadai:" << endl;
+            cout << "1. Berlangsung\n2. Tertebus\n";
+            cout << "Masukkan Pilihan: ";
+            cin >> statusBarang;
+            
+            ada = true;
+
+            if (statusBarang == "1"){
+                lihatBarang[i]["statusBarang"] = "Berlangsung";
+            } else if (statusBarang == "2"){
+                lihatBarang[i]["statusBarang"] = "Tertebus";
+            } else {
+                setWarnaFont(red);
+                cout << "Pilihan tidak tersedia" << endl;
+                setWarnaFont(reset);
+                break;
+            }
+
+            cout << "Status Gadai Barang Dengan ID  " << cariID << " adalah: ";
+            setWarnaFont(green);
+            cout << lihatBarang[i]["statusBarang"] << endl;
+            setWarnaFont(reset);
+            
+            barang.updateData(cariID, lihatBarang[i]);
+            break;
+        } 
+    } 
+
+    if (ada == false){
+                setWarnaFont(red);
+                cout << "Pilihan tidak tersedia" << endl;
+                setWarnaFont(reset);
+    }
+
 }
 
 void hapusDataGadai() {
