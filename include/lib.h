@@ -17,5 +17,6 @@ enum WARNA {
 
 void cetakGaris(int panjang, WARNA warna = cyan, char simbol = '-');
 void setWarnaFont(WARNA warna = cyan);
+std::string jatuhTempo(const std::string& tanggalGadai, int jangkaWaktu);
 
 #endif

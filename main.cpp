@@ -3,6 +3,7 @@
 #include "include/database.h"
 #include "include/user.h"
 #include "include/lib.h"
+#include "include/menu.h"
 
 namespace AUTH {
     void Login() {
@@ -83,16 +84,9 @@ namespace AUTH {
 
 int main() {
     // CEK UDAH LOGIN ATAU BELUM
-    cetakGaris(40, yellow);
-    std::cout << "SELAMAT DATANG DI SISTEM PEGADAIAN";
-    cetakGaris(40, yellow);
-    std::vector<std::unordered_map<std::string, std::string>> data;
-
-    MyDatabase database("data/user.csv");
-    database.getData(data);
-    for (const auto& row: data) {
-        std::cout << row.at("nama") << "\n";
-    }
-
+    // std::string akun;
+    // cout << "Masukkan role (admin/nasabah) : ";
+    // cin >> akun;
     
+    menu("admin");
 }

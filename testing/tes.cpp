@@ -1,8 +1,9 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include "../include/database.h"
 using namespace std;
-
 
 int main() {
     vector<map<string, string>> data = {
@@ -16,8 +17,6 @@ int main() {
         }
     };
 
-    for(const auto& row: data) {
-        cout << "Nama: " << row.at("Nama") << "\n";
-        cout << "NPM: " << row.at("NPM") << "\n";
-    }
+    
+
 }
