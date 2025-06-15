@@ -86,10 +86,13 @@ int main() {
     cetakGaris(40, yellow);
     std::cout << "SELAMAT DATANG DI SISTEM PEGADAIAN";
     cetakGaris(40, yellow);
-    MyDatabase database("data/barang.csv");
     std::vector<std::unordered_map<std::string, std::string>> data;
+
+    MyDatabase database("data/user.csv");
     database.getData(data);
-    for(const auto& row: data) {
-        std::cout << "Nama barang: " << row.at("namaBarang") << "\n";
+    for (const auto& row: data) {
+        std::cout << row.at("nama") << "\n";
     }
+
+    
 }
