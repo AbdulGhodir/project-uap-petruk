@@ -1,3 +1,9 @@
 id,idUser,namaBarang,beratBarang,hargaBarang,statusBarang
 1,1,sepatu,1,1000000,Tertebus
-2,1,tas,1,1000000,Tertebus
+2,1,tas,1,1000000,Berlangsung
+3,2,laptop,3,5000000,Berlangsung
+4,2,Samsung,1997880936,0,Berlangsung
+5,2,Samsung Galaxy A23,1,2300000,Berlangsung
+6,9,Handphone,2,2000000,Berlangsung
+7,3,Ayam,2,200000,Berlangsung
+8,1,Handphone Samsung,2,3000000,Berlangsung
